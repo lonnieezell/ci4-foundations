@@ -1,6 +1,6 @@
 # CodeIgniter 4 Foundations Code Samples
 
-This is the repository for all of the code samples for my book, CodeIgniter 4 Foundations. Views have been updated with Bootstrap styles to make it a little more exciting, but otherwise it is direct from the code examples in the book. 
+This is the repository for all of the code samples for my book, [CodeIgniter 4 Foundations](https://leanpub.com/codeigniter4foundations). Views have been updated with Bootstrap styles to make it a little more exciting, but otherwise it is direct from the code examples in the book. 
 
 ## Running the samples
 

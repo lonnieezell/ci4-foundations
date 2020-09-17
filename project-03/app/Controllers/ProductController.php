@@ -1,13 +1,13 @@
 <?php namespace App\Controllers;
 
 use CodeIgniter\Controller;
-use App\Models\ProductModel;
+use App\Models\PostModel;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $products = model(ProductModel::class);
+        $products = model(PostModel::class);
         $typography = service('typography');
 
         echo view('product_list', [

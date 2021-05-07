@@ -87,7 +87,7 @@ class CatApiWrapper
 		$query = http_build_query($params);
 		$result = $this->curl->get($url.'?'.$query);
 
-		return $result->setStatusCode(200)
+		return $result->getStatusCode(200)
 			? json_decode($result->getBody())
 			: null;
 	}

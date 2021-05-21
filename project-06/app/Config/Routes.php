@@ -41,6 +41,14 @@ $routes->post('posts', 'PostController::save');
 $routes->post('posts/(:num)', 'PostController::save/$1');
 $routes->post('posts/(:num)/delete', 'PostController::delete/$1');
 
+// API
+$routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes) {
+	$routes->get('posts', 'PostController::list');
+	$routes->post('posts', 'PostController::create');
+	$routes->put('post/(:segment)', 'PostController::update/$1');
+	$routes->delete('post/(:segment)', 'PostController::delete/$1');
+});
+
 /**
  * --------------------------------------------------------------------
  * Additional Routing

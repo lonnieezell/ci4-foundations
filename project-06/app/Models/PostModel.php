@@ -10,6 +10,12 @@ class PostModel extends Model
     protected $allowedFields = ['title', 'body', 'publish_at'];
     protected $returnType = Post::class;
 
+    protected $validationRules = [
+        'title' => 'required|string',
+        'body' => 'required|string',
+        'publish_at' => 'required|date',
+    ];
+
     /**
      * Filters any future queries to only include published posts.
      *
@@ -17,7 +23,8 @@ class PostModel extends Model
      */
     public function published()
     {
-        $this->where('publish_at <=', date('Y-m-d H:i:s'));
+        $this->where('publish_at <=', date('Y-m-d H:i:s'))
+            ->where('publish_at is not null');
 
         return $this;
     }

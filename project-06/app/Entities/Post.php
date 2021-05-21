@@ -32,4 +32,24 @@ class Post extends Entity
     {
         return nl2br(esc($this->attributes['body']));
     }
+
+	/**
+	 * @param bool $onlyChanged
+	 * @param bool $cast
+	 * @param bool $recursive
+	 *
+	 * @return array
+	 * @throws \Exception
+	 */
+	public function apiArray(): array
+	{
+		$data = parent::toArray();
+
+		// Add our entity links in the response.
+		$data['links'] = [
+			'self' => site_url('api/post/'. $this->id),
+		];
+
+		return $data;
+    }
 }

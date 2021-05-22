@@ -42,7 +42,7 @@ $routes->post('posts/(:num)', 'PostController::save/$1');
 $routes->post('posts/(:num)/delete', 'PostController::delete/$1');
 
 // API
-$routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes) {
+$routes->group('api', ['namespace' => 'App\Controllers\Api', 'filter' => 'throttle'], function($routes) {
 	$routes->get('posts', 'PostController::list');
 	$routes->post('posts', 'PostController::create');
 	$routes->post('post/(:segment)', 'PostController::update/$1');

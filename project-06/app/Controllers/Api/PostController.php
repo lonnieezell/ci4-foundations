@@ -3,6 +3,7 @@
 use App\Models\PostModel;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\Controller;
+use Config\Mimes;
 
 /**
  * Class PostController
@@ -108,6 +109,13 @@ class PostController extends Controller
 		]);
 	}
 
+	/**
+	 * Delete a single post.
+	 *
+	 * @param int $id
+	 *
+	 * @return mixed
+	 */
 	public function delete(int $id)
 	{
 		$post = $this->postModel->find($id);
@@ -120,6 +128,48 @@ class PostController extends Controller
 
 		return $this->respondDeleted([
 			'message' => 'The post was deleted.',
+		]);
+	}
+
+	/**
+	 * Called via PUT to set a featured image for
+	 * the specified post.
+	 *
+	 * @param int $id
+	 *
+	 * @return mixed
+	 */
+	public function setImage(int $id)
+	{
+		$post = $this->postModel->find($id);
+
+		if ($post === null) {
+			return $this->failNotFound();
+		}
+
+		$ext = Mimes::guessExtensionFromType($this->request->getHeaderLine('Content-Type'));
+		$clientLength = $this->request->getHeader('Content-Length')->getValue();
+		$imageData = $this->request->getBody();
+
+		// Make sure we have the entire image.
+		if ($clientLength !== strlen($imageData)) {
+			return $this->failValidationErrors('The full image was not received.');
+		}
+
+		// Save it a file
+		helper('text', 'filesystem');
+		$fileName = random_string('crypto', 24) .'.'. $ext;
+
+		if (! write_file(WRITEPATH .'uploads/'. $fileName, $imageData)) {
+			return $this->failServerError('Error while saving file.');
+		}
+
+		// Update the post
+		$post->featured_image = $fileName;
+		$this->postModel->save($post);
+
+		return $this->respond([
+			'fileName' => $fileName
 		]);
 	}
 }

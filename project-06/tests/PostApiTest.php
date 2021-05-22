@@ -106,7 +106,7 @@ class PostApiTest extends DatabaseTestCase
 			'publish_at' => Time::now()
 		];
 
-		$response = $this->put('/api/post/1234', $data);
+		$response = $this->post('/api/post/1234', $data);
 
 		$response->assertStatus(404);
 		$response->assertJSONExact([
@@ -128,7 +128,7 @@ class PostApiTest extends DatabaseTestCase
 			'publish_at' => Time::now()
 		];
 
-		$response = $this->put('/api/post/'. $post->id, $data);
+		$response = $this->post('/api/post/'. $post->id, $data);
 
 		$response->assertStatus(400);
 		$response->assertJSONExact([
@@ -150,7 +150,7 @@ class PostApiTest extends DatabaseTestCase
 			'publish_at' => Time::now()
 		];
 
-		$response = $this->put('/api/post/'. $post->id, $data);
+		$response = $this->post('/api/post/'. $post->id, $data);
 
 		$response->assertStatus(200);
 		$response->assertJSONExact([
@@ -195,5 +195,28 @@ class PostApiTest extends DatabaseTestCase
 		$this->dontSeeInDatabase('posts', [
 			'id' => $post->id
 		]);
+	}
+
+	public function testSetImage()
+	{
+		$file = TESTPATH .'_support/ci4_logo.png';
+		$post = fake(\App\Models\PostModel::class, ['publish_at' => Time::parse('-1 day')]);
+
+		// Send the file as the body of a PUT request
+		$response = $this->withBody(file_get_contents($file))
+			->withHeaders([
+				'Content-Type' => 'image/png',
+				'Content-Length' => filesize($file),
+			])
+            ->put('/api/post/'. $post->id .'/set-image');
+
+		$response->assertStatus(200);
+
+		$json = json_decode($response->getJSON());
+
+		$this->assertNotEmpty($json->fileName);
+
+		// Clean up after our test...
+		@unlink(WRITEPATH .'uploads/'. $json->fileName);
 	}
 }

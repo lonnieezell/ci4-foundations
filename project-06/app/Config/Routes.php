@@ -45,8 +45,9 @@ $routes->post('posts/(:num)/delete', 'PostController::delete/$1');
 $routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes) {
 	$routes->get('posts', 'PostController::list');
 	$routes->post('posts', 'PostController::create');
-	$routes->put('post/(:segment)', 'PostController::update/$1');
+	$routes->post('post/(:segment)', 'PostController::update/$1');
 	$routes->delete('post/(:segment)', 'PostController::delete/$1');
+	$routes->put('post/(:segment)/set-image', 'PostController::setImage/$1');
 });
 
 /**

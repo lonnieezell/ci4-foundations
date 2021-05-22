@@ -12,6 +12,7 @@ class CreatePostsTable extends Migration
         $this->forge->addField([
             'title'      => ['type' => 'varchar', 'constraint' => 255],
             'body'       => ['type' => 'text', 'null' => true],
+            'featured_image' => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
             'publish_at' => ['type' => 'datetime', 'null' => true, 'default' => null],
             'created_at' => ['type' => 'datetime', 'null' => true, 'default' => null],
             'deleted_at' => ['type' => 'datetime', 'null' => true, 'default' => null],

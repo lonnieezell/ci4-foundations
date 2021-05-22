@@ -7,12 +7,13 @@ use Faker\Generator;
 class PostModel extends Model
 {
     protected $table = 'posts';
-    protected $allowedFields = ['title', 'body', 'publish_at'];
+    protected $allowedFields = ['title', 'body', 'featured_image', 'publish_at'];
     protected $returnType = Post::class;
 
     protected $validationRules = [
         'title' => 'required|string',
         'body' => 'required|string',
+	    'featured_image' => 'permit_empty|string',
         'publish_at' => 'required|date',
     ];
 

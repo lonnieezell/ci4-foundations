@@ -96,6 +96,11 @@ class PostApiTest extends DatabaseTestCase
 				'title' => 'Title A'
 			]
 		]);
+
+		$this->seeInDatabase('posts', [
+			'title' => 'Title A',
+			'body' => 'Body A'
+		]);
 	}
 
 	public function testUpdateNotFound()

@@ -29,7 +29,7 @@ class PostController extends Controller
 	 *
 	 * @return mixed
 	 */
-	public function list()
+	public function index()
 	{
 		$limit = $this->request->getGet('limit');
 
@@ -49,6 +49,26 @@ class PostController extends Controller
 		}
 
 		return $this->respond($results);
+	}
+
+	/**
+	 * Returns the details for a single Post.
+	 *
+	 * @param int $id
+	 *
+	 * @return mixed
+	 */
+	public function show(int $id)
+	{
+		$post = $this->postModel
+			->published()
+			->find($id);
+
+		if ($post === null) {
+			return $this->failNotFound('Unable to locate that Post.');
+		}
+
+		return $this->respond($post->apiArray());
 	}
 
 	/**

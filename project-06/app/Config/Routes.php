@@ -43,11 +43,12 @@ $routes->post('posts/(:num)/delete', 'PostController::delete/$1');
 
 // API
 $routes->group('api', ['namespace' => 'App\Controllers\Api', 'filter' => 'throttle'], function($routes) {
-	$routes->get('posts', 'PostController::list');
+	$routes->get('posts', 'PostController::index');
 	$routes->post('posts', 'PostController::create');
-	$routes->post('post/(:segment)', 'PostController::update/$1');
-	$routes->delete('post/(:segment)', 'PostController::delete/$1');
-	$routes->put('post/(:segment)/set-image', 'PostController::setImage/$1');
+	$routes->get('posts/(:segment)', 'PostController::show/$1');
+	$routes->post('posts/(:segment)', 'PostController::update/$1');
+	$routes->delete('posts/(:segment)', 'PostController::delete/$1');
+	$routes->put('posts/(:segment)/set-image', 'PostController::setImage/$1');
 });
 
 /**
